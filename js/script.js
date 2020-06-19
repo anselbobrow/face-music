@@ -1,6 +1,6 @@
 // grab elements from html
-const video = document.querySelector('#inputVideo');
-const canvas = document.querySelector('#overlay');
+const video = document.querySelector('.inputVideo');
+const canvas = document.querySelector('.overlay');
 const pbutton = document.querySelector('#pbutton');
 
 // ideal size of video and overlays (suggested: 1280 x 720)
@@ -19,6 +19,7 @@ async function start() {
   // tinyFaceDetector
   // tinyYolov2
   await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
+  await faceapi.nets.faceLandmark68TinyNet.loadFromUri('/models');
 
   navigator.mediaDevices
     .getUserMedia({
@@ -46,34 +47,42 @@ video.onplay = () => {
 };
 
 async function detectLoop() {
-  // clear the canvas from the last iteration
-  ctx.clearRect(0, 0, displaySize.width, displaySize.height);
-
   // create a new detection object using the video frame as input
   // try changing the face detector to achieve different results
   // just remember to load it from the models in start()
-  let detection = await faceapi.detectSingleFace(
-    video,
-    new faceapi.TinyFaceDetectorOptions({ inputSize: 160 })
-  );
 
-  // draw the rectangular frame to the canvas
-  // faceapi has a builtin drawBox function, but for some reason it wasn't working for me
+  // another important thing to note is that the video and canvas elements are
+  // flipped via CSS transform, so the origin of the canvas is now the top right,
+  // and all x values coming from the detection should be treated as such
+  let detection = await faceapi
+    .detectSingleFace(
+      video,
+      new faceapi.TinyFaceDetectorOptions({ inputSize: 160 })
+      // https://github.com/justadudewhohacks/face-api.js/#tinyfacedetectoroptions
+    )
+    .withFaceLandmarks(true);
+
   if (detection) {
     // docs said to resize the detection... this did literally nothing for me
     // if you want to see the different detections compared, uncomment the following:
-
     /*
     let resizedDetection = faceapi.resizeResults(detection, displaySize);
     console.log('d', detection);
     console.log('r', resizedDetection);
     */
+    let { x, y, width, height } = detection.detection.box;
 
-    let { x, y, width, height } = detection.box;
-    ctx.strokeRect(x, y, width, height);
+    // clear the canvas from the last iteration
+    ctx.clearRect(0, 0, displaySize.width, displaySize.height);
+
+    // draw the rectangular frame to the canvas
+    // faceapi has a builtin drawBox function, but for some reason it wasn't working for me
+    // ctx.strokeRect(x, y, width, height);
+    faceapi.draw.drawFaceLandmarks(canvas, detection);
+    console.log(detection);
   }
 
-  await sleep(500);
+  await sleep(200);
 
   if (!video.paused) detectLoop();
 }
