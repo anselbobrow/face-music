@@ -1,4 +1,7 @@
+import playPause from './services/playPause.service';
+import sleep from './services/sleep.service';
 import * as faceapi from 'face-api.js';
+import './style.css';
 
 // grab elements from html
 const video = document.querySelector('.inputVideo');
@@ -20,8 +23,8 @@ async function start() {
   // ssdMobilenetv1
   // tinyFaceDetector
   // tinyYolov2
-  await faceapi.nets.tinyFaceDetector.loadFromUri('./models');
-  await faceapi.nets.faceLandmark68TinyNet.loadFromUri('./models');
+  await faceapi.nets.tinyFaceDetector.loadFromUri('./src/models');
+  await faceapi.nets.faceLandmark68TinyNet.loadFromUri('./src/models');
 
   navigator.mediaDevices
     .getUserMedia({
@@ -89,22 +92,10 @@ async function detectLoop() {
   if (!video.paused) detectLoop();
 }
 
-// play/pause video feed and face detection
-const playPause = () => {
-  if (!video.paused) {
-    video.pause();
-  } else {
-    video.play();
-  }
-};
-
-// in order to use setTimeout in async functions...
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-
 // bind p and play button to playPause()
 window.addEventListener('keypress', e => {
-  if (e.key.toLowerCase() === 'p') playPause();
+  if (e.key.toLowerCase() === 'p') playPause(video);
 });
-pbutton.addEventListener('click', playPause);
+pbutton.addEventListener('click', () => playPause(video));
 
 start();
