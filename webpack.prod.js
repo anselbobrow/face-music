@@ -14,14 +14,18 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, './dist'),
   },
   optimization: {
-    minimizer: [new TerserJSPlugin(), new OptimizeCSSAssetsPlugin(), new HtmlWebpackPlugin({
-      template: './src/index.html',
-      minify: {
-        removeAttributeQuotes: true,
-        collapseWhitespace: true,
-        removeComments: true,
-      }
-    })],
+    minimizer: [
+      new TerserJSPlugin(),
+      new OptimizeCSSAssetsPlugin(),
+      new HtmlWebpackPlugin({
+        template: './src/index.html',
+        minify: {
+          removeAttributeQuotes: true,
+          collapseWhitespace: true,
+          removeComments: true,
+        },
+      }),
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),

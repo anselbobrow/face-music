@@ -15,7 +15,8 @@ module.exports = merge(common, {
         use: ['style-loader', 'css-loader'],
       },
     ],
-  },  plugins: [
+  },
+  plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     }),

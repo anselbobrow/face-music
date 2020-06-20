@@ -17,4 +17,8 @@ module.exports = {
       },
     ],
   },
+  // use face-api on the web without getting a file system error from node:
+  node: {
+    fs: 'empty',
+  },
 };
