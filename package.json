@@ -1,0 +1,34 @@
+{
+  "name": "tonejs-and-faceapi",
+  "version": "1.0.0",
+  "description": "A simple app for converting face movements into musical instruments.",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anselbobrow/face-music.git"
+  },
+  "keywords": [
+    "faceapi",
+    "tonejs",
+    "nexusui",
+    "facial-recognition"
+  ],
+  "author": "Ansel Bobrow",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anselbobrow/face-music/issues"
+  },
+  "homepage": "https://github.com/anselbobrow/face-music#readme",
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "face-api.js": "^0.22.2",
+    "nexusui": "^2.1.4",
+    "tone": "^14.7.11"
+  }
+}

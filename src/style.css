@@ -1,0 +1,14 @@
+.container {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.flippedX {
+  transform: scaleX(-1);
+}
+
