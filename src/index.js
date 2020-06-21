@@ -8,55 +8,55 @@ const video = document.querySelector('.inputVideo');
 const canvas = document.querySelector('.overlay');
 const pbutton = document.querySelector('#pbutton');
 
-// ideal size of video and overlays (suggested: 1280 x 720)
-let displaySize = { width: 1280, height: 720 };
-let ctx;
+let ctx = canvas.getContext('2d');
 
 // load face detector and connect to webcam
 async function start() {
-  // other nets to load (for different face detectors/details)
-  // ageGenderNet
-  // faceExpressionNet
-  // faceLandmark68Net
-  // faceLandmark68TinyNet
-  // faceRecognitionNet
-  // ssdMobilenetv1
-  // tinyFaceDetector
-  // tinyYolov2
   await faceapi.nets.tinyFaceDetector.loadFromUri('./src/models');
   await faceapi.nets.faceLandmark68TinyNet.loadFromUri('./src/models');
 
-  navigator.mediaDevices
-    .getUserMedia({
+  try {
+    let stream = await navigator.mediaDevices.getUserMedia({
       video: {
-        width: { ideal: displaySize.width },
-        height: { ideal: displaySize.height },
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
       },
-    })
-    .then(stream => (video.srcObject = stream))
-    .catch(err => console.error(err));
+    });
+    video.srcObject = stream;
+  } catch (e) {
+    console.log(e);
+  }
 }
 
-// wait for video to appear (play), then set up canvas and go into detection loop
+// then set up canvas and go into detection loop
 video.onplay = () => {
   // NOT the same as canvas.style.width/height! lesson learned
-  canvas.width = displaySize.width;
-  canvas.height = displaySize.height;
+  canvas.width = parseInt(window.getComputedStyle(video).width, 10);
+  canvas.height = parseInt(window.getComputedStyle(video).height, 10);
 
-  // initialization of canvas drawing tools
-  ctx = canvas.getContext('2d');
-  ctx.strokeStyle = 'blue';
-  ctx.lineWidth = 2;
+  ctx.fillStyle = 'blue';
 
-  let detectProps = [video, canvas, ctx, displaySize];
-
-  detectLoop(detectProps);
+  detectLoop(video, canvas, ctx);
 };
 
 // bind p and play button to playPause()
-window.addEventListener('keypress', e => {
-  if (e.key.toLowerCase() === 'p') playPause(video);
+pbutton.addEventListener('click', () => {
+  playPause(video);
 });
-pbutton.addEventListener('click', () => playPause(video));
+
+window.addEventListener('keypress', e => {
+  if (e.key.toLowerCase() === 'p') {
+    playPause(video);
+  }
+});
+
+// retrigger video.onplay when resized to reset canvas sizing
+// and the detectLoop function
+window.addEventListener('resize', () => {
+  if (!video.paused) {
+    video.pause();
+    video.play();
+  }
+});
 
 start();
