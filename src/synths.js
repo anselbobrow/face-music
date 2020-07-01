@@ -2,7 +2,7 @@
 
 import * as Tone from 'tone';
 
-let vol, synth, oscilloscope;
+let vol, synth;
 
 const toneSetup = async () => {
   await Tone.start();
