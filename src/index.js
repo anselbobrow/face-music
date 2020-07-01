@@ -2,7 +2,6 @@ import playPause from './services/playPause.service';
 import detectLoop from './detectLoop';
 import { toneSetup } from './synths';
 import * as faceapi from 'face-api.js';
-import * as Tone from 'tone';
 import './style.css';
 
 // grab elements from html
@@ -24,7 +23,6 @@ const start = async () => {
   await faceapi.nets.tinyFaceDetector.loadFromUri('./src/models');
   await faceapi.nets.faceLandmark68TinyNet.loadFromUri('./src/models');
 
-  await Tone.start();
   toneSetup();
 
   try {

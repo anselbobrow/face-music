@@ -1,22 +1,29 @@
+// try using a library besides nexus for UI...
+
 import * as Tone from 'tone';
 
-let vol, synth;
+let vol, synth, oscilloscope;
 
-const toneSetup = () => {
+const toneSetup = async () => {
+  await Tone.start();
   vol = new Tone.Volume(-12).toDestination();
   synth = new Tone.Synth().connect(vol);
 };
 
-const updateInstruments = relPos => {
-  updateSynth(relPos);
+const startInstruments = () => {
+  synth.triggerAttack(440);
 };
 
 const stopInstruments = () => {
   synth.triggerRelease();
 };
 
+const updateInstruments = relPos => {
+  updateSynth(relPos);
+};
+
 const updateSynth = relPos => {
   synth.setNote(parseInt(relPos.x * 1000, 10), '+8n');
 };
 
-export { toneSetup, updateInstruments, stopInstruments };
+export { toneSetup, updateInstruments, startInstruments, stopInstruments };

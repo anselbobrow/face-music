@@ -18,7 +18,6 @@ module.exports = merge(common, {
       new TerserJSPlugin(),
       new OptimizeCSSAssetsPlugin(),
       new HtmlWebpackPlugin({
-        filename: 'index.[contenthash].html',
         template: './src/index.html',
         minify: {
           removeAttributeQuotes: true,

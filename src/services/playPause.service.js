@@ -1,8 +1,12 @@
-// play/pause video feed and face detection
+import { startInstruments, stopInstruments } from '../synths';
+
+// play/pause video feed, face detection, and instruments
 export default function playPause(video) {
-  if (!video.paused) {
-    video.pause();
-  } else {
+  if (video.paused) {
     video.play();
+    startInstruments();
+  } else {
+    video.pause();
+    stopInstruments();
   }
 }

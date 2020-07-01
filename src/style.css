@@ -43,6 +43,6 @@ body {
   border: 1px solid black;
 }
 
-.oscilloscope {
+.oscilloscope-container {
   grid-area: oscilloscope;
 }
