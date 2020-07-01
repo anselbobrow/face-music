@@ -11,9 +11,21 @@ body {
   gap: 2rem;
 }
 
+@media screen and (max-width: 900px) {
+  body {
+    grid-template-areas: 'video' 'controls' 'oscilloscope';
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content minmax(100px, auto) minmax(100px, auto);
+  }
+}
+
 .video-container {
-  position: relative;
   grid-area: video;
+  position: relative;
+}
+
+.inputVideo {
+  width: 100%;
 }
 
 .overlay {
@@ -22,14 +34,15 @@ body {
   left: 0;
 }
 
-.inputVideo {
-  width: 100%;
-}
-
 .flippedX {
   transform: scaleX(-1);
 }
 
-#pbutton {
+.synth-controls {
+  grid-area: controls;
+  border: 1px solid black;
+}
+
+.oscilloscope {
   grid-area: oscilloscope;
 }

@@ -1,4 +1,5 @@
 import * as faceapi from 'face-api.js';
+import { updateInstruments, stopInstruments } from './synths';
 
 export default async function detectLoop(video, canvas, ctx) {
   // an important thing to note is that the video and canvas elements are
@@ -12,7 +13,12 @@ export default async function detectLoop(video, canvas, ctx) {
     .withFaceLandmarks(true);
 
   if (detection) {
-    console.log(detection);
+    // pass the relative position of the landmark to the synths function
+    updateInstruments({
+      x: detection.landmarks.relativePositions[30].x,
+      y: detection.landmarks.relativePositions[30].y,
+    });
+
     // resizing the detection here turns out to be necessary
     // if we want the window to resize properly
     detection = faceapi.resizeResults(detection, canvas);
@@ -32,5 +38,9 @@ export default async function detectLoop(video, canvas, ctx) {
     // this draws a full face to the canvas, but it messes with our custom nose-tracker
     // faceapi.draw.drawFaceLandmarks(canvas, detection);
   }
-  if (!video.paused) detectLoop(video, canvas, ctx);
+  if (video.paused) {
+    stopInstruments();
+  } else {
+    detectLoop(video, canvas, ctx);
+  }
 }
