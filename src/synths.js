@@ -1,21 +1,24 @@
-// try using a library besides nexus for UI...
-
 import * as Tone from 'tone';
 
-let vol, synth;
+let master_vol;
+
+// an array holding various Tone.js synthesizers and oscillators
+// indexed as follows
+// [star trek glitchy sound effect, ]
+let instruments = [];
 
 const toneSetup = async () => {
   await Tone.start();
-  vol = new Tone.Volume(-12).toDestination();
-  synth = new Tone.Synth().connect(vol);
+  master_vol = new Tone.Volume(-12).toDestination();
+  instruments.push(new Tone.Synth().connect(master_vol));
 };
 
-const startInstruments = () => {
-  synth.triggerAttack(440);
+const startInstrument = id => {
+  instruments[0].triggerAttack(Math.floor(Math.random() * 340 + 200));
 };
 
 const stopInstruments = () => {
-  synth.triggerRelease();
+  instruments[0].triggerRelease();
 };
 
 const updateInstruments = relPos => {
@@ -23,7 +26,7 @@ const updateInstruments = relPos => {
 };
 
 const updateSynth = relPos => {
-  synth.setNote(parseInt(relPos.x * 1000, 10), '+8n');
+  instruments[0].setNote(Math.floor(Math.pow(3901, relPos.x) + 99));
 };
 
-export { toneSetup, updateInstruments, startInstruments, stopInstruments };
+export { toneSetup, updateInstruments, startInstrument, stopInstruments };
