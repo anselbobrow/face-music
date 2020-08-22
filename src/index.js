@@ -1,4 +1,4 @@
-import playPause from './services/playPause.service';
+import playPause from './playPause';
 import detectLoop from './detectLoop';
 import { toneSetup } from './synths';
 import * as faceapi from 'face-api.js';

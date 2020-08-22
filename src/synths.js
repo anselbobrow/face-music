@@ -11,6 +11,11 @@ const toneSetup = async () => {
   await Tone.start();
   master_vol = new Tone.Volume(-12).toDestination();
   instruments.push(new Tone.Synth().connect(master_vol));
+  instruments.push(
+    new Tone.Synth({ oscillator: new Tone.OmniOscillator('fmsquare') }).connect(
+      master_vol
+    )
+  );
 };
 
 const startInstrument = id => {
@@ -26,6 +31,7 @@ const updateInstruments = relPos => {
 };
 
 const updateSynth = relPos => {
+  // 100–4000hz
   instruments[0].setNote(Math.floor(Math.pow(3901, relPos.x) + 99));
 };
 
