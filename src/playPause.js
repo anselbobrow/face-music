@@ -16,4 +16,3 @@ export default function playPause(video) {
 }
 
 // when selecting an instrument, update the instrumentIdx
-synths.
