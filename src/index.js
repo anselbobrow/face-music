@@ -9,11 +9,12 @@ const video = document.querySelector('.inputVideo');
 const canvas = document.querySelector('.overlay');
 const pbutton = document.querySelector('#pbutton');
 const startButton = document.querySelector('#start-button');
+const instrumentIdx = parseInt(document.querySelector('#instr-select'), 10)
 
 let ctx = canvas.getContext('2d');
 
 const setCanvasSize = () => {
-  // NOT the same as canvas.style.width/height! lesson learned
+  // canvas.width/height is NOT the same as canvas.style.width/height! lesson learned
   canvas.width = parseInt(window.getComputedStyle(video).width, 10);
   canvas.height = parseInt(window.getComputedStyle(video).height, 10);
 };
@@ -34,7 +35,7 @@ const start = async () => {
     });
     video.srcObject = stream;
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 };
 

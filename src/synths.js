@@ -11,11 +11,11 @@ const toneSetup = async () => {
   await Tone.start();
   master_vol = new Tone.Volume(-12).toDestination();
   instruments.push(new Tone.Synth().connect(master_vol));
-  instruments.push(
-    new Tone.Synth({ oscillator: new Tone.OmniOscillator('fmsquare') }).connect(
-      master_vol
-    )
-  );
+  // instruments.push(
+  //   new Tone.Synth({ oscillator: new Tone.OmniOscillator('fmsquare') }).connect(
+  //     master_vol
+  //   )
+  // );
 };
 
 const startInstrument = id => {
@@ -23,7 +23,7 @@ const startInstrument = id => {
 };
 
 const stopInstruments = () => {
-  instruments[0].triggerRelease();
+  instruments.forEach(i => i.triggerRelease());
 };
 
 const updateInstruments = relPos => {
