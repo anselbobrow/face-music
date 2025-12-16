@@ -3,7 +3,7 @@ name: AutoMerge
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
     types: [opened, reopened, synchronize]
 
