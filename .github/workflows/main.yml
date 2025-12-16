@@ -1,0 +1,24 @@
+# .github/workflows/auto-merge.yaml
+name: AutoMerge
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+
+    name: Approve and ask for merge
+
+    # It is advised to add this line in order to totally skip the code execution
+    # in case Dependabot is not the requester.
+    if: ${{ github.actor == 'dependabot[bot]' }}
+
+    steps:
+      - name: 🔬 Auto merge
+        uses: fewlinesco/dependabot-auto-merge@vx.x.x # Use the latest version
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
